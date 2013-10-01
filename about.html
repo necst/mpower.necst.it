@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MPower App - Gain back your Android battery life! &middot; About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 72px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+    </style>
+    <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+    
+    <div style="position:fixed; top:0px; left:0px;"><img src="images/beta_label.png"></div>
+    
+    <div class="container-narrow">
+
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li><a href="index.html">Home</a></li>
+          <li class="active"><a href="about.html">About</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="download.html">Download</a></li>
+        </ul>
+        <h3 class="muted">MPower (Beta)</h3>
+      </div>
+
+      <hr>
+
+      <h2>The MPower Application</h2>
+      </br>
+      </br>
+      
+      <div class="row-fluid">
+        <div class="span4">
+          <img src="images/droidBattery.png">
+        </div>
+        <div class="span8">
+          <br>
+          <p>
+            Nowadays, mobile devices are becoming more flexible and rich in functionalities. Those devices are highly influenced by constraints, mainly regarding power management. In fact, mobile batteries are limited in time and there are no efficient methods able to manage power consumption. Even knowing the device Time To Live (TTL) is currently left to the user experience. In this paper, we presented MPower, a system able to predict the mobile device TTL, providing also the user with suggestions on the optimal device configuration w.r.t. the desired TTL. This allows the user to manage the available power resources, according to his/her needs, avoiding power wasting.
+          </p>
+        </div>
+      </div>
+      
+      </br>
+
+      <div class="row-fluid">
+        <div class="span12 pagination-centered"><img src="images/mpower_nexus_0_crop.jpg"></div>
+      </div>
+
+      </br>
+      </br>
+      </br>
+
+      <h2>Introduction</h2>
+      <br>
+
+      <p>
+      Mobile devices, e.g., smartphones, PDAs and tablets, increase in number of functionalities in the recent years, making them appealing to a wide range of users. Thus, even if they are becoming more and more powerful in term of supported computation, they are constrained w.r.t. the power consumption. In fact, batteries are limited in time and their Time To Live (TTL) is highly influenced by the current phone state, the user usage profile and external conditions, e.g., signal strength. As a consequence, since these devices are subject to sudden and unpredictable changes of their conditions, a method for computing the device TTL is necessary. A practical way of predicting the TTL is to model the battery discharging curve, since TTL coincides with the time the battery level reaches zero level.
+      Android OS [1], one of the most popular mobile OS, only provides a percentage as remaining power indicator, leaving to the user experience and knowledge to determine the TTL of its mobile device. In order to know a TTL, the discharge curve is needed, and consequently, a power mobile of the device. Literature on mobile power consumption estimation provides a wide range of works about power modeling [6]. Most of them use benchmark applications on a single device to gather data, providing model which hardly generalize to the burden of devices currently available. Recently, the need for considering users’ behaviour is highlighted [7]. A first attempt in this direction has been done by Kang et al. [4], where real data are used to build a personalized power model. They do not take into account power consumption specific to mobile device, which can behave differently even with a given user profile.
+      In this paper, we present MPower, the final implementation of the idea presented in [3], i.e., a system
+      able to predict accurately an Android-based mobile device TTL, without any dedicated hardware tool or modification of the operating system. The model is focused on the hardware component power consumption, rather than users’ behavior, allowing comparison among devices. The whole architecture is based on a mobile application implementing a low power logger and a remote server, where the main computations are offloaded.
+      </p>
+
+      </br>
+      </br>
+      <h2>System Architecture</h2>
+      </br>
+    
+      <p>
+      MPower relies on a system architecture based on two main components: an Android client logging application, running on the mobile device, and a remote server, for the data storage and the model computation. In the pictore the information flow is presented. At first, the application on the mobile device gathers data related to energy consumption, e.g., battery level, CPU frequency, screen brightness, and sends them to a remote cloud server, responsible for the power model generation. Finally, the model is sent back to the device and the currently estimated TTL is shown by the MPower client.
+      </p>
+
+      <div class="row-fluid">
+        <div class="span12 pagination-centered"><img src="images/mpower_info_flow.png"></div>
+      </div>
+
+      </br>
+      </br>
+      <h2>Power Model Generation</h2>
+      </br>
+    
+      <p>
+      The power consumption model estimation phase is performed on data gathered by the MPower Android app: no controlled environment experiments are required. MPower relies only on the everyday usage data, providing a flexible system, adaptive w.r.t. new devices and new OS versions and even able to handle battery degradation effects. Data gathered from the device may be grouped into two main categories: controllable actuators values and uncontrollable variables. The first group determines the device configurations: each assignment of actuators values determines device state. For instance, a configuration is WiFi OFF, 3G ON, bluetooth OFF, etc. Given a configuration, the uncontrollable variables, such as time elapsed, CPU usage, etc., are used as input for the TTL prediction. For each configuration, a power consumption model is computed, estimating an ARX model [5]. The power model is sent to the device as a look-up-table, containing TTLs corresponding to each configuration. Thus, the mobile device does not have to perform any further computation, but a simple query on the look-up table.
+      </p>
+
+
+
+      </br>
+      </br>
+      <h2>The Android Application</h2>
+      </br>
+    
+      <p>
+      A preliminary version of MPower app is available on the Google Play store [2] and the complete version will be released in September1. Currently, it logs the phone information and allows the user to visualize the phone usage statistics. In the final version it will provide also the TTL in the current configuration and will offer suggestion for achieving the desired TTL by changing configuration. Fig. 2(a) presents the application main page screenshot: the battery TTL for the current configuration is reported in the center of the screen, while on the lower part it is possible to access phone statistics (buttons “Reports” and “Charts”) and to allow the phone to refine the model if needed (button “Collecting new data”). The button “Set battery life” leads to the page in Fig. 2(b), where the user Fig. 3 shows the third MPower feature: the visualization of the device usage statistics. Specifically, Fig. 3(a) reports a pie-chart with the different networks data usage distribution, while Fig. 3(b) visualize the overall network data usage and the power consumption. MPower functionalities allows the user to keep the battery consumption under control, without having an excessive overhead in power consumption. In fact, since it runs continuously on the mobile device, a low impact on the battery is required. For this reason, to design a non-power-hungry application, the following aspects have been addressed during the application developing phase:
+      </p>
+
+      <ul>  
+
+        <li>
+          <b>sampling frequency</b>: Sampling the device status every ten seconds allow the application not to be listed in the Android OS most battery draining apps;
+        </li>
+
+        <li>
+          <b>wake-lock</b>: The application does not make use of any wake-lock, which would requires the device to leave the deep-sleep mode (an energy saving state);
+        </li>
+
+        <li>
+          <b>computation</b>: The model estimation and adaptation is up to the remote server. To display the TTL, the only computation required by the device is a single query on a lookup table.
+        </li>
+
+
+        <li>
+          <b>data transfer</b>: Samples are logged on small files, to avoid power consuming accesses to a single big file. These information are then compressed and encrypted, to create smaller packets, and are sent to the server only if the device is on charge.
+        </li>
+
+      </ul> 
+
+      </br>
+
+      <a class="btn" href="http://dl.acm.org/citation.cfm?id=2494147">Download the descriptive paper!</a>
+
+      </br>
+      </br>
+      </br>
+
+
+      <!-- FOOTER -->
+      <hr>
+      <div class="footer">
+        <div class="row-fluid">
+          <div class="span6">
+            <p>&copy; NECST Laboratory - Politecnico di Milano - 2013</p>
+          </div>
+          <div class="span6">
+            <p class="text-right"><a href="issues_report.html">Issues report</a> - <a href="publications.html">Publications</a> - <a href="privacy.html">Privacy</a></p>
+          </div>
+        </div>
+      </div>  
+      <!-- END FOOTER -->        
+
+
+    </div> <!-- /container -->
+
+<!-- Inizio Codice Google Analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-42729744-1', 'necst.it');
+      ga('send', 'pageview');
+    </script>
+    <!-- Fine Codice Google Analytics -->
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../assets/js/jquery.js"></script>
+    <script src="../assets/js/bootstrap-transition.js"></script>
+    <script src="../assets/js/bootstrap-alert.js"></script>
+    <script src="../assets/js/bootstrap-modal.js"></script>
+    <script src="../assets/js/bootstrap-dropdown.js"></script>
+    <script src="../assets/js/bootstrap-scrollspy.js"></script>
+    <script src="../assets/js/bootstrap-tab.js"></script>
+    <script src="../assets/js/bootstrap-tooltip.js"></script>
+    <script src="../assets/js/bootstrap-popover.js"></script>
+    <script src="../assets/js/bootstrap-button.js"></script>
+    <script src="../assets/js/bootstrap-collapse.js"></script>
+    <script src="../assets/js/bootstrap-carousel.js"></script>
+    <script src="../assets/js/bootstrap-typeahead.js"></script>
+
+  </body>
+</html>
+
+    
