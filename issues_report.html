@@ -63,6 +63,15 @@
 
   <body>
 
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=145108202251250";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+
     <div style="position:fixed; top:0px; left:0px;"><img src="images/beta_label.png"></div>
 
 
@@ -93,6 +102,8 @@
               <p>Did you experienced any issue with the app? </br> Please mail us at: <a href="mailto:mpower@necst.it">mpower@necst.it</a></p>
 
               <br>
+              <p>You can also post on our MPower Support Facebook Page:</p>
+			  <div class="fb-comments" data-href="https://www.facebook.com/mpowersupport" data-numposts="5" data-colorscheme="light"></div>
               <br>
 
               <h3 class="form-signin-heading">Known working devices</h3>
