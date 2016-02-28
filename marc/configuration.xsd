@@ -1,0 +1,335 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mpower.necst.it/configuration"
+	xmlns:tns="http://mpower.necst.it/configuration"
+	elementFormDefault="qualified">
+	
+	
+	<xsd:complexType name="featureType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:Name"/>
+			<xsd:element name="col-index" type="xsd:nonNegativeInteger"/>
+			<xsd:element name="type">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="instantaneous"/>
+						<xsd:enumeration value="categorical"/>
+						<xsd:enumeration value="cumulative"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="monotony" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="ascendant"/>
+						<xsd:enumeration value="descendant"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="bounds" minOccurs="0">
+				<xsd:complexType>
+					<xsd:all>
+						<xsd:element name="lower" type="xsd:decimal" minOccurs="0"/>
+						<xsd:element name="upper" type="xsd:decimal" minOccurs="0"/>
+					</xsd:all>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="in-featureType">
+		<xsd:complexContent>
+			<xsd:extension base="tns:featureType">
+				<xsd:sequence>
+					<xsd:element name="reduction" minOccurs="0">
+						<xsd:complexType>
+							<xsd:choice>
+								<xsd:element name="linear" type="tns:reductionType"/>
+								<xsd:element name="logarithmic" type="tns:reductionType"/>
+								<xsd:element name="fixed">
+									<xsd:complexType>
+										<!-- Last element is Upper Bound -->
+										<xsd:sequence>
+											<xsd:element name="border" type="xsd:decimal" minOccurs="2" maxOccurs="unbounded"/>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:choice>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="reductionType">
+		<xsd:all>
+			<xsd:element name="min" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="max" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="splits" type="xsd:positiveInteger" minOccurs="0" maxOccurs="1"/>
+		</xsd:all>
+	</xsd:complexType>
+	
+	<xsd:complexType name="targetType">
+		<xsd:attribute name="ref" type="xsd:Name" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="simulationType">
+		<xsd:all>
+			<xsd:element name="start-from">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="initial-condition" type="xsd:decimal" minOccurs="1" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="stop-at">
+				<xsd:complexType>
+					<xsd:choice>
+						<xsd:element name="boundary">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="upper"/>
+									<xsd:enumeration value="lower"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:element>
+						<xsd:element name="threshold" type="xsd:decimal"/>
+					</xsd:choice>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:all>
+	</xsd:complexType>
+
+	<xsd:element name="configurations">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="job">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="name" type="xsd:Name"/>
+							<xsd:element name="owner" type="xsd:string"/>
+                        </xsd:all>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="computation-unit" type="xsd:string"/>
+				<xsd:element name="dataset" type="xsd:string"/>
+				<xsd:element name="phases">
+					<xsd:complexType>
+						<xsd:all>
+							<xsd:element name="phase0">
+                                <xsd:complexType>
+                                    <xsd:all>
+										<xsd:element name="timestamp-feature" type="tns:targetType" minOccurs="1" maxOccurs="1"/>
+										<xsd:element name="mappings">
+                                            <xsd:complexType>
+                                                <xsd:all>
+                                                    <xsd:element name="features">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence>
+                                                                <xsd:element name="feature" maxOccurs="unbounded" type="tns:in-featureType">
+                                                                </xsd:element>
+                                                            </xsd:sequence>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                </xsd:all>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:all>
+                                </xsd:complexType>
+
+                            </xsd:element>
+							<xsd:element name="phase1">
+								<xsd:complexType>
+									<xsd:all>
+										<xsd:element name="coherence" minOccurs="0">
+											<xsd:complexType>
+												<!-- Descending Priority -->
+												<xsd:sequence>
+													<xsd:element name="rule" minOccurs="1" maxOccurs="unbounded">
+														<xsd:complexType>
+															<xsd:sequence>
+																<xsd:element name="condition">
+																	<xsd:simpleType>
+																		<xsd:restriction base="xsd:normalizedString">
+																			<xsd:whiteSpace value="collapse"/>
+																		</xsd:restriction>
+																	</xsd:simpleType>
+																</xsd:element>
+																<xsd:element name="corrections" minOccurs="0" maxOccurs="1">
+																	<xsd:complexType>
+																		<!-- Descending Priority -->
+																		<xsd:sequence>
+																			<xsd:element name="actuation" minOccurs="1" maxOccurs="unbounded">
+																				<xsd:simpleType>
+																					<xsd:restriction base="xsd:normalizedString">
+																						<xsd:whiteSpace value="collapse"/>
+																					</xsd:restriction>
+																				</xsd:simpleType>
+																			</xsd:element>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="manipulation">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="standardization" minOccurs="0" maxOccurs="unbounded">
+														<xsd:complexType>
+															<xsd:sequence>
+																<xsd:element name="target-feature" type="tns:targetType" minOccurs="1" maxOccurs="unbounded"/>
+															</xsd:sequence>
+														</xsd:complexType>
+													</xsd:element>
+													<xsd:element name="quantization-correction" minOccurs="0" maxOccurs="1"/>
+												</xsd:sequence>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="features">
+											<xsd:complexType>
+												<xsd:choice>
+													<xsd:element name="selection">
+														<xsd:complexType>
+															<xsd:sequence>
+															<xsd:element name="fuse" minOccurs="0" maxOccurs="unbounded">
+																	<xsd:complexType>
+																		<xsd:sequence>
+																			<xsd:element name="feature" type="tns:featureType"/>
+																			<xsd:element name="operation" type="xsd:normalizedString"/>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																	<xsd:unique name="fused-columns-uniqueness">
+																		<xsd:selector xpath="tns:target-feature"/>
+																		<xsd:field xpath="@ref"/>
+																	</xsd:unique>
+															</xsd:element>
+															<xsd:element name="exclude" minOccurs="0" maxOccurs="1">
+																	<xsd:complexType>
+																		<xsd:sequence>
+																			<xsd:element name="target-feature" minOccurs="1" maxOccurs="unbounded" type="tns:targetType"/>
+																		</xsd:sequence>
+																	</xsd:complexType>
+																</xsd:element>
+															</xsd:sequence>
+														</xsd:complexType>
+														<!-- limits each columns to either belong to a SINGLE fusion or an exclusion -->
+														<xsd:unique name="excluded-columns-cannot-be-fused">
+															<xsd:selector xpath=".//tns:target-feature"/>
+															<xsd:field xpath="@ref"/>
+														</xsd:unique>
+													</xsd:element>
+													<xsd:element name="all-as-is"/>
+													<!-- Future Extension -->
+													<xsd:element name="auto" minOccurs="0" maxOccurs="0"/>
+												</xsd:choice>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+                            <xsd:element name="phase2a">
+								<xsd:complexType>
+									<xsd:all>
+                                        <xsd:element name="configuration">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="target-feature" minOccurs="0" maxOccurs="unbounded">
+                                                        <xsd:complexType>
+                                                            <xsd:complexContent>
+                                                                <xsd:extension base="tns:targetType">
+                                                                    <xsd:attribute name="config-by-monotony" default="false" use="optional"/>
+                                                                </xsd:extension>
+                                                            </xsd:complexContent>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
+                                                    <xsd:element name="output-feature" type="tns:targetType" minOccurs="1" maxOccurs="1"/>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                            <xsd:unique name="PHASE2A-configuration-features-uniqueness">
+                                                <xsd:selector xpath="tns:target-feature"/>
+                                                <xsd:field xpath="@ref"/>
+                                            </xsd:unique>
+                                        </xsd:element>
+										<xsd:element name="lags">
+											<xsd:complexType>
+												<xsd:all>
+													<xsd:element name="ar" type="xsd:nonNegativeInteger"/>
+													<xsd:element name="ex" type="xsd:nonNegativeInteger"/>
+												</xsd:all>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="timestamp-splitting-diff" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="phase2b">
+								<xsd:complexType>
+									<xsd:all minOccurs="0">
+										<xsd:element name="configuration">
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="target-feature" type="tns:targetType" minOccurs="0" maxOccurs="unbounded"/>
+												</xsd:sequence>
+											</xsd:complexType>
+											<xsd:unique name="PHASE2B-configuration-features-uniqueness">
+												<xsd:selector xpath="tns:target-feature"/>
+												<xsd:field xpath="@ref"/>
+											</xsd:unique>
+										</xsd:element>
+										<xsd:element name="periodicity" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+										<xsd:element name="minimum-band" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+										<xsd:element name="aggregation-threshold" type="xsd:double" minOccurs="1" maxOccurs="1"/>
+									</xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="phase2c">
+								<xsd:complexType>
+                                    <xsd:all minOccurs="0">
+                                        <xsd:element name="configuration">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="target-feature" type="tns:targetType" minOccurs="0" maxOccurs="unbounded"/>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                            <xsd:unique name="PHASE2C-configuration-features-uniqueness">
+                                                <xsd:selector xpath="tns:target-feature"/>
+                                                <xsd:field xpath="@ref"/>
+                                            </xsd:unique>
+                                        </xsd:element>
+                                    </xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="phase3">
+								<xsd:complexType>
+									<xsd:all minOccurs="0">
+										<xsd:element name="clock" type="xsd:decimal" minOccurs="1" maxOccurs="1" />
+										<xsd:element name="max-ticks" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1"/>
+										<xsd:element name="charge" type="tns:simulationType" minOccurs="0" maxOccurs="1"/>
+										<xsd:element name="discharge" type="tns:simulationType" minOccurs="0" maxOccurs="1"/>
+                                        <xsd:element name="level_size" type="xsd:decimal" minOccurs="0" maxOccurs="1"/>
+                                        <xsd:element name="simulation_limit" type="xsd:positiveInteger" minOccurs="1" maxOccurs="1"/>
+                                    </xsd:all>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:all>
+					</xsd:complexType>
+                    <xsd:key name="feature">
+                        <xsd:selector xpath=".//tns:feature"/>
+                        <xsd:field xpath="tns:name"/>
+                    </xsd:key>
+                    <xsd:unique name="col-index-uniqueness">
+                        <xsd:selector xpath=".//tns:feature"/>
+                        <xsd:field xpath="tns:col-index"/>
+                    </xsd:unique>
+					<xsd:keyref name="reference-to-target-feature" refer="tns:feature">
+						<xsd:selector xpath=".//tns:target-feature"/>
+						<xsd:field xpath="@ref"/>
+					</xsd:keyref>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
