@@ -1,5 +1,5 @@
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mpower.necst.it/configuration"
-	xmlns:tns="http://mpower.necst.it/configuration"
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://mpower.necst.it/marc/configuration.xsd"
+	xmlns:tns="http://mpower.necst.it/marc/configuration.xsd"
 	elementFormDefault="qualified">
 	
 	
